@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\MasterData\AdminController;
+use App\Http\Controllers\MasterData\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
-
+    Route::get('/admin', AdminController::class);
+    Route::get('/member', MemberController::class);
+    Route::get('/dashboard', DashboardController::class);
     Route::post('/logout', LogoutController::class);
 });
