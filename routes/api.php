@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MasterData\AdminController;
 use App\Http\Controllers\MasterData\MemberController;
 use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Content\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,4 +57,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/member/{id}', [MemberController::class, 'delete'])
             ->name('delete')
             ->middleware('can:users-delete'); 
+
+    Route::get('/article', [ArticleController::class, 'index'])
+            ->name('index');
+    Route::post('/article', [ArticleController::class, 'store'])
+            ->name('store');
+    Route::put('/article/{id}', [ArticleController::class, 'update'])
+            ->name('update');
+    Route::delete('/article/{id}', [ArticleController::class, 'delete'])
+            ->name('delete');
 });
