@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
@@ -15,6 +17,14 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return "Welcome To Dashboard";
+        $admin = User::role('Admin')->count();    
+        $member = User::role('Member')->count();
+        $roles = Role::count();
+
+        return response()->json([
+            'Jumlah Admin Saat Ini' =>  $admin,
+            'Jumlah Member Saat Ini' =>  $member,
+            'Jumlah Role Saat Ini' =>  $roles
+        ], 200);
     }
 }

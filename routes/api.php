@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MasterData\AdminController;
 use App\Http\Controllers\MasterData\MemberController;
+use App\Http\Controllers\Role\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,33 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
-    Route::get('/admin', AdminController::class);
-    Route::get('/member', MemberController::class);
     Route::get('/dashboard', DashboardController::class);
+    Route::get('/role', RoleController::class);
     Route::post('/logout', LogoutController::class);
+
+    Route::get('/admin', [AdminController::class, 'index'])
+            ->name('index')
+            ->middleware('can:users-list');
+    Route::post('/admin', [AdminController::class, 'store'])
+            ->name('store')
+            ->middleware('can:users-create');
+    Route::put('/admin/{id}', [AdminController::class, 'update'])
+            ->name('update')
+            ->middleware('can:users-edit');
+    Route::delete('/admin/{id}', [AdminController::class, 'delete'])
+            ->name('delete')
+            ->middleware('can:users-delete'); 
+
+    Route::get('/member', [MemberController::class, 'index'])
+            ->name('index')
+            ->middleware('can:users-list');
+    Route::post('/member', [MemberController::class, 'store'])
+            ->name('store')
+            ->middleware('can:users-create');
+    Route::put('/member/{id}', [MemberController::class, 'update'])
+            ->name('update')
+            ->middleware('can:users-edit');
+    Route::delete('/member/{id}', [MemberController::class, 'delete'])
+            ->name('delete')
+            ->middleware('can:users-delete'); 
 });
